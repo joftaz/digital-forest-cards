@@ -35,7 +35,7 @@ interface TreeCardProps {
 }
 
 export const TreeCard = ({ data }: TreeCardProps) => {
-  const googleMapsKey = "AIzaSyAW0_GwE7WPDox5RZnUMkESHGiSe5siWdQ";
+  // const googleMapsKey = "AIzaSyAW0_GwE7WPDox5RZnUMkESHGiSe5siWdQ"; // TODO: Configure API key restrictions
   
   return (
     <Card className="w-full shadow-lg border-primary/20" dir="rtl">
@@ -109,8 +109,8 @@ export const TreeCard = ({ data }: TreeCardProps) => {
           </>
         )}
 
-        {/* Map/Street View Section */}
-        {data.id && (
+        {/* Map/Street View Section - TODO: Fix API key restrictions */}
+        {/* {data.id && (
           <>
             <Separator />
             <div className="space-y-3">
@@ -125,7 +125,7 @@ export const TreeCard = ({ data }: TreeCardProps) => {
               />
             </div>
           </>
-        )}
+        )} */}
 
         {/* Tree Photo */}
         {data.photoUrl && (
