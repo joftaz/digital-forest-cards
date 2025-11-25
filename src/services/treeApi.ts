@@ -7,21 +7,30 @@ export interface TreeApiResponse {
 export interface TreeRow {
   "meta-tree-id": string;
   "attributes-species-clean-he"?: string;
+  "attributes-species-clean-en"?: string;
+  "attributes-genus"?: string;
   "attributes-bark-diameter"?: number;
   "attributes-height"?: number;
   "attributes-canopy-area"?: number;
   "attributes-canopy-diameter"?: number;
   "attributes-age-estimated"?: string;
+  "attributes-num-barks"?: number;
+  "attributes-health-score"?: number;
+  "attributes-good-status"?: string;
   "muni_name"?: string;
+  "muni_region"?: string;
   "road_name"?: string;
   "cad_code"?: string;
   "location-x"?: number;
   "location-y"?: number;
+  "location-address"?: string;
   "environment-type"?: string;
   "meta-internal-id"?: string;
   "photos-general"?: string;
   "meta-source"?: string;
   "meta-date"?: string;
+  "meta-collection-type"?: string;
+  "meta-source-type"?: string;
 }
 
 export const fetchTreeData = async (
@@ -128,16 +137,24 @@ export const transformTreeData = (apiDataRows: TreeRow[]) => {
   return {
     id: mergedData["meta-tree-id"],
     species: mergedData["attributes-species-clean-he"],
+    speciesEnglish: mergedData["attributes-species-clean-en"],
+    genus: mergedData["attributes-genus"],
     trunkDiameter: mergedData["attributes-bark-diameter"],
     height: mergedData["attributes-height"],
     canopyArea: mergedData["attributes-canopy-area"],
     crownDiameter: mergedData["attributes-canopy-diameter"],
+    numTrunks: mergedData["attributes-num-barks"],
+    healthScore: mergedData["attributes-health-score"],
+    goodStatus: mergedData["attributes-good-status"],
     ageEstimated: mergedData["attributes-age-estimated"] === "true",
     municipality: mergedData["muni_name"],
     street: mergedData["road_name"],
+    fullAddress: mergedData["location-address"],
     parcel: mergedData["cad_code"],
     coordinates,
     treeSpace: mergedData["environment-type"],
+    collectionType: mergedData["meta-collection-type"],
+    sourceType: mergedData["meta-source-type"],
     internalIds: internalIds.length > 0 ? internalIds : undefined,
     photoUrl: mergedData["photos-general"],
     dataSources: dataSources.length > 0 ? dataSources : undefined,

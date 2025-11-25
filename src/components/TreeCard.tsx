@@ -11,18 +11,26 @@ interface DataSource {
 interface TreeData {
   id: string;
   species?: string;
+  speciesEnglish?: string;
+  genus?: string;
   trunkDiameter?: number;
   height?: number;
   canopyArea?: number;
   crownDiameter?: number;
+  numTrunks?: number;
+  healthScore?: number;
+  goodStatus?: string;
   age?: number;
   ageEstimated?: boolean;
   location?: string;
   municipality?: string;
   street?: string;
+  fullAddress?: string;
   parcel?: string;
   coordinates?: string;
   treeSpace?: string;
+  collectionType?: string;
+  sourceType?: string;
   environment?: string;
   internalIds?: string[];
   photoUrl?: string;
@@ -58,9 +66,21 @@ export const TreeCard = ({ data }: TreeCardProps) => {
         {/* Main Info Section */}
         <div className="space-y-3">
           {data.species && (
-            <div className="flex justify-between items-center">
-              <span className="text-sm text-muted-foreground">מין</span>
-              <span className="text-base font-medium text-foreground">{data.species}</span>
+            <div className="space-y-1">
+              <div className="flex justify-between items-center">
+                <span className="text-sm text-muted-foreground">מין</span>
+                <span className="text-base font-medium text-foreground">{data.species}</span>
+              </div>
+              {data.speciesEnglish && (
+                <div className="flex justify-end">
+                  <span className="text-sm text-muted-foreground italic ltr">{data.speciesEnglish}</span>
+                </div>
+              )}
+              {data.genus && (
+                <div className="flex justify-end">
+                  <span className="text-xs text-muted-foreground ltr">Genus: {data.genus}</span>
+                </div>
+              )}
             </div>
           )}
           
@@ -75,6 +95,13 @@ export const TreeCard = ({ data }: TreeCardProps) => {
             <div className="flex justify-between items-center">
               <span className="text-sm text-muted-foreground">רשות מקומית</span>
               <span className="text-base font-medium text-foreground">{data.municipality}</span>
+            </div>
+          )}
+          
+          {data.fullAddress && (
+            <div className="flex justify-between items-center">
+              <span className="text-sm text-muted-foreground">כתובת</span>
+              <span className="text-base font-medium text-foreground">{data.fullAddress}</span>
             </div>
           )}
           
@@ -99,6 +126,20 @@ export const TreeCard = ({ data }: TreeCardProps) => {
             <Separator />
             <div className="space-y-3">
               <h3 className="text-base font-semibold text-foreground">רשימת מקורות המידע</h3>
+              {(data.collectionType || data.sourceType) && (
+                <div className="flex gap-2 justify-end">
+                  {data.sourceType && (
+                    <Badge variant="outline" className="text-xs">
+                      {data.sourceType}
+                    </Badge>
+                  )}
+                  {data.collectionType && (
+                    <Badge variant="outline" className="text-xs">
+                      {data.collectionType}
+                    </Badge>
+                  )}
+                </div>
+              )}
               {data.dataSources.map((source, idx) => (
                 <div key={idx} className="flex justify-between items-center">
                   <span className="text-sm text-muted-foreground">{source.name}</span>
@@ -165,6 +206,27 @@ export const TreeCard = ({ data }: TreeCardProps) => {
             <div className="flex justify-between items-center">
               <span className="text-sm text-muted-foreground">מרחב העץ</span>
               <span className="text-sm text-foreground">{data.treeSpace}</span>
+            </div>
+          )}
+          
+          {data.numTrunks && (
+            <div className="flex justify-between items-center">
+              <span className="text-sm text-muted-foreground">מספר גזעים</span>
+              <span className="text-sm text-foreground">{data.numTrunks}</span>
+            </div>
+          )}
+          
+          {data.healthScore !== undefined && (
+            <div className="flex justify-between items-center">
+              <span className="text-sm text-muted-foreground">ציון בריאות</span>
+              <span className="text-sm text-foreground">{data.healthScore}</span>
+            </div>
+          )}
+          
+          {data.goodStatus && (
+            <div className="flex justify-between items-center">
+              <span className="text-sm text-muted-foreground">מצב העץ</span>
+              <span className="text-sm text-foreground">{data.goodStatus}</span>
             </div>
           )}
           
