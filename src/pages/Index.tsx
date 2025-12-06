@@ -3,9 +3,12 @@ import { useQuery } from "@tanstack/react-query";
 import { TreeCard } from "@/components/TreeCard";
 import { TreeIdInput } from "@/components/TreeIdInput";
 import { MunicipalitySelector } from "@/components/MunicipalitySelector";
-import { TreePine, Loader2, AlertCircle } from "lucide-react";
+import { Header } from "@/components/Header";
+import { Footer } from "@/components/Footer";
+import { Loader2, AlertCircle, HelpCircle } from "lucide-react";
 import { fetchTreeData, transformTreeData, groupByTreeId } from "@/services/treeApi";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Button } from "@/components/ui/button";
 
 const Index = () => {
   const [searchValue, setSearchValue] = useState("8G4P4VXP+GR5V");
@@ -23,7 +26,7 @@ const Index = () => {
 
   // Group results by tree ID (for internal ID searches that return multiple municipalities)
   const groupedResults = initialData ? groupByTreeId(initialData) : [];
-  
+
   // Determine if we need to show municipality selector
   const showMultipleOptions = searchType === "internal-id" && groupedResults.length > 1 && !selectedTreeId;
 
@@ -55,7 +58,7 @@ const Index = () => {
 
   // Transform API data to component format
   const treeData = finalData ? transformTreeData(finalData) : null;
-  
+
   // Loading state: show loading if either query is loading
   const isLoading = isLoadingInitial || (!!finalTreeId && isLoadingFinal);
   const error = errorInitial;
@@ -72,33 +75,22 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-accent to-background" dir="rtl">
-      {/* Header */}
-      <header className="bg-card shadow-sm border-b border-primary/10">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center gap-3">
-            <TreePine className="h-8 w-8 text-primary" />
-            <div>
-              <h1 className="text-xl font-bold text-foreground">יער דיגיטלי</h1>
-              <p className="text-xs text-muted-foreground">מידע על עצים עירוניים</p>
-            </div>
-          </div>
-        </div>
-      </header>
+    <div className="min-h-screen flex flex-col bg-background" dir="rtl">
+      <Header />
 
       {/* Main Content */}
-      <main className="container mx-auto px-4 py-6 space-y-6 max-w-2xl">
+      <main className="flex-1 container mx-auto px-4 py-6 space-y-6 max-w-md">
         {/* Search Section */}
-        <div className="bg-card p-4 rounded-lg shadow-md border border-primary/10">
-          <h2 className="text-lg font-semibold mb-3 text-foreground text-right">חיפוש עץ</h2>
+        <div className="bg-card p-6 rounded-2xl shadow-sm border border-border/60">
+          <h2 className="text-lg font-semibold mb-4 text-foreground text-right">חיפוש עץ</h2>
           <TreeIdInput onSearch={handleSearch} />
         </div>
 
         {/* Loading State */}
         {isLoading && (
-          <div className="bg-card p-8 rounded-lg shadow-md border border-primary/10 flex items-center justify-center">
+          <div className="bg-card p-8 rounded-2xl shadow-sm border border-border/60 flex flex-col items-center justify-center gap-3 text-muted-foreground">
             <Loader2 className="h-8 w-8 animate-spin text-primary" />
-            <span className="mr-3 text-foreground">טוען נתוני עץ...</span>
+            <span>טוען נתוני עץ...</span>
           </div>
         )}
 
@@ -114,14 +106,24 @@ const Index = () => {
         )}
 
         {/* No Data Found */}
-        {!isLoading && !error && !showMultipleOptions && !treeData && (
-          <Alert>
-            <AlertCircle className="h-4 w-4" />
-            <AlertTitle className="text-right">לא נמצאו תוצאות</AlertTitle>
-            <AlertDescription className="text-right">
-              לא נמצא עץ עם המזהה {searchValue}. אנא בדוק את המזהה ונסה שוב.
-            </AlertDescription>
-          </Alert>
+        {!isLoading && !error && !showMultipleOptions && !treeData && searchValue && (
+          <div className="bg-card p-6 rounded-2xl shadow-sm border border-border/60 text-center space-y-4">
+            <div className="flex justify-center">
+              <div className="h-12 w-12 rounded-full bg-muted/20 flex items-center justify-center">
+                <HelpCircle className="h-6 w-6 text-muted-foreground" />
+              </div>
+            </div>
+            <div className="space-y-1">
+              <h3 className="font-semibold text-foreground">העץ לא נמצא?</h3>
+              <p className="text-sm text-muted-foreground">
+                לא מצאנו עץ עם המזהה "{searchValue}"
+              </p>
+            </div>
+            <Button variant="outline" disabled className="w-full gap-2">
+              להוספת העץ?
+              <span className="text-xs">(בקרוב)</span>
+            </Button>
+          </div>
         )}
 
         {/* Municipality Selector (when multiple results from different municipalities) */}
@@ -137,15 +139,9 @@ const Index = () => {
 
         {/* Tree Card */}
         {!isLoading && treeData && <TreeCard data={treeData} />}
-
-        {/* Info Section */}
-        <div className="bg-card p-4 rounded-lg shadow-sm border border-primary/10">
-          <p className="text-sm text-muted-foreground text-right leading-relaxed">
-            המידע מתבסס על בסיס הנתונים הלאומי של הערים הדיגיטליות. 
-            כל הנתונים מקורם ממיפוי ומדידות של עצים עירוניים ברחבי הארץ.
-          </p>
-        </div>
       </main>
+
+      <Footer />
     </div>
   );
 };

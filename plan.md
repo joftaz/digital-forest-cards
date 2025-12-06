@@ -23,13 +23,22 @@ Deliver a mobile-first “תעודת זהות לעץ” interface that mirrors Y
 
 | # | Feature | Description | Status |
 |---|---------|-------------|--------|
-| 1 | Tree Card theming | Apply Ya״ד color tokens, typography tweaks, and spacing to `TreeCard`. | TODO |
-| 2 | Primary info layout | Reorder data block (species link placeholder, age, trunk diameter, height, crown diameter). | TODO |
-| 3 | Municipal ID-first identity | Title uses “מזהה רשות”, keep “עץ מזוהה” badge, share action. | TODO |
-| 4 | Search by municipal ID | Update search input label/placeholder, helper text, and no-result CTA. | TODO |
-| 5 | Spatial info section | Group municipality, street, parcel, coordinates with new hierarchy. | TODO |
-| 6 | Data sources & disclaimer | Render sources list, disclaimer copy, and feedback prompt. | TODO |
-| 7 | Photo block | Show photo when available, otherwise show “add photo” CTA placeholder. | TODO |
+| 1 | Tree Card theming | Apply Ya״ד color tokens, typography tweaks, and spacing to `TreeCard`. | DONE |
+| 2 | Primary info layout | Reorder data block (Species, Age, Trunk Diameter, Height, Canopy Diameter). Note: Canopy Diameter, not Area. | DONE |
+| 3 | Municipal ID-first identity | Title: "מזעץ <MunicipalID>" (Keep "Maza'at" label). Tag: "עץ מזוהה". Share action. | DONE |
+| 4 | Search by municipal ID | Search by Municipal ID. Label: "מזהה רשות". Helper: "מספר העץ שמחובר לעץ". No result: "העץ לא נמצא? להוספת העץ?" (TBD). | DONE |
+| 5 | Spatial info section | Municipality, Street, Block/Parcel (Gush/Helka), Coordinates. | DONE |
+| 6 | Data sources & disclaimer | Render sources list. Disclaimer: "האתר מציג מידע ציבורי...". Feedback: "גרסת פיילוט...". | DONE |
+| 7 | Photo block | Show photo if available. If not, "Add Photo" CTA (TBD). | DONE |
+| 8 | Header | Logo, Site Name: "יער עירוני דיגיטלי", Slogan: "לראות מידע ציבורי - להוסיף מידע אזרחי". | DONE |
+
+### Future Work (TBD / Out of Scope for MVP)
+- **About Page (אודות):** Explanation about the site.
+- **Add Tree Functionality:** "להוספת העץ" flow.
+- **Add Photo Functionality:** Uploading a new photo.
+- **Add Coordinates (User Location):** "הוספת נ.צ ע"י משתמש באמצעות מיקם".
+- **Feedback/Contact Form (106):** Connection to 106/Whatsapp or a free text form.
+- **Mapping/Creating Municipal ID:** "שימוש באתר למיפוי ויצירת מזהה רשות".
 
 ### Implementation Notes
 - Introduce a centralized theme (CSS variables or Tailwind config) to reuse Ya״ד palette.
@@ -48,4 +57,6 @@ Deliver a mobile-first “תעודת זהות לעץ” interface that mirrors Y
 2. Update `TreeCard` structure + content order.
 3. Refresh search UX copy and CTA line.
 4. Add disclaimer + feedback blocks to page/footer.
+   - Disclaimer: "האתר מציג מידע ציבורי פתוח כפי שנאסף ע\"י הסדנא לידע ציבורי בפרויקט יער עירוני דיגיטלי ו-קטלוג עצי רחוב וצל כשירות לציבור. ייתכנו הבדלים בין המידע המוצג למצב בשטח בשל שגיאות באיסוף הנתונים במקור, בעיבוד הנתונים או בשינויים שקרו בשטח."
+   - Feedback: "גרסת פיילוט. נשמח ללמוד ולשמוע רעיונות והצעות לשיפור info@hasadna.org.il"
 

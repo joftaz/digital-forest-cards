@@ -47,9 +47,11 @@ interface TreeCardProps {
 export const TreeCard = ({ data }: TreeCardProps) => {
   const municipalId = data.internalIds?.[0];
   const displayId = municipalId ?? data.id;
-  const speciesCatalogUrl = data.species
-    ? `https://catalog.hasadna.org.il/trees?query=${encodeURIComponent(data.species)}`
-    : undefined;
+  const speciesCatalogUrl = data.speciesEnglish
+    ? `https://www.treecatalog.org.il/tree/${encodeURIComponent(data.speciesEnglish.toLowerCase().replace(/ /g, "-"))}`
+    : data.species
+      ? `https://www.treecatalog.org.il/tree/${encodeURIComponent(data.species)}`
+      : undefined;
   const shareUrl = typeof window !== "undefined" ? window.location.href : undefined;
 
   const measurementCards = [
@@ -103,15 +105,15 @@ export const TreeCard = ({ data }: TreeCardProps) => {
   })();
 
   return (
-    <Card className="w-full border border-border/60 bg-card text-card-foreground shadow-2xl" dir="rtl">
-      <CardHeader className="border-b border-border/60 bg-primary/10 pb-6">
+    <Card className="w-full border border-border/60 bg-card text-card-foreground shadow-sm" dir="rtl">
+      <CardHeader className="border-b border-border/60 pb-6">
         <div className="flex flex-col gap-4">
           <div className="flex flex-wrap items-start justify-between gap-4">
             <div className="space-y-1">
               <p className="text-xs uppercase tracking-[0.4em] text-muted-foreground">מזעץ</p>
               <CardTitle className="flex items-center gap-2 text-3xl font-semibold">
                 <TreePine className="h-6 w-6 text-primary" />
-                <span>{displayId}</span>
+                <span>מזעץ {municipalId || data.id}</span>
               </CardTitle>
               {data.id && (
                 <div className="flex items-center gap-2 text-sm text-muted-foreground">
@@ -124,22 +126,16 @@ export const TreeCard = ({ data }: TreeCardProps) => {
               <Badge
                 variant="outline"
                 className={cn(
-                  "border-primary/50 bg-primary/10 px-3 py-1 text-xs font-semibold tracking-wide",
-                  data.status === "identified" ? "text-primary-foreground" : "text-secondary-foreground",
+                  "border-primary/50 bg-background px-3 py-1 text-xs font-semibold tracking-wide text-primary",
                 )}
               >
-                {data.status === "identified" ? "עץ מזוהה" : "חשד לעץ"}
+                עץ מזוהה
               </Badge>
               <Button variant="ghost" size="icon" onClick={handleShare} aria-label="שיתוף רשומה">
                 <Share2 className="h-4 w-4" />
               </Button>
             </div>
           </div>
-          {municipalId && (
-            <p className="text-sm text-muted-foreground">
-              מזהה רשות: <span className="font-medium text-foreground">{municipalId}</span>
-            </p>
-          )}
         </div>
       </CardHeader>
 
@@ -154,10 +150,10 @@ export const TreeCard = ({ data }: TreeCardProps) => {
                   href={speciesCatalogUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 text-xs text-accent hover:text-accent/80"
+                  className="inline-flex items-center gap-1 text-xs font-medium text-primary hover:underline hover:text-primary/80"
                 >
                   מידע על המין
-                  <ExternalLink className="h-4 w-4" />
+                  <ExternalLink className="h-3 w-3" />
                 </a>
               )}
             </div>
@@ -172,7 +168,7 @@ export const TreeCard = ({ data }: TreeCardProps) => {
             </div>
           </div>
 
-          <div className="grid gap-3 md:grid-cols-3">
+          <div className="grid gap-3 md:grid-cols-2">
             <div className="rounded-xl border border-border/40 bg-card/70 p-3">
               <span className="text-xs text-muted-foreground">גיל</span>
               <p className="text-lg font-semibold text-foreground">{ageDisplay}</p>
@@ -185,12 +181,6 @@ export const TreeCard = ({ data }: TreeCardProps) => {
                 </p>
               </div>
             ))}
-            {measurementCards.length === 0 && (
-              <div className="flex items-center gap-2 rounded-xl border border-border/40 bg-card/70 p-3 text-sm text-muted-foreground">
-                <Ruler className="h-4 w-4 text-muted-foreground" />
-                ללא נתוני מדידה רשמיים
-              </div>
-            )}
           </div>
         </section>
 
@@ -282,22 +272,7 @@ export const TreeCard = ({ data }: TreeCardProps) => {
           </div>
         </section>
 
-        <Separator />
 
-        {/* Disclaimer */}
-        <section className="space-y-3 text-xs leading-relaxed text-muted-foreground">
-          <p>
-            האתר מציג מידע ציבורי פתוח כפי שנאסף על-ידי הסדנא לידע ציבורי בפרויקטים יער עירוני דיגיטלי וקטלוג עצי רחוב וצל.
-            ייתכנו הבדלים בין הנתונים לבין מצב העץ בשטח בשל שגיאות איסוף, עיבוד או שינויים פיזיים.
-          </p>
-          <p>
-            גרסת פיילוט. נשמח להערות ורעיונות לשיפור בכתובת{" "}
-            <a href="mailto:info@hasadna.org.il" className="text-accent hover:underline">
-              info@hasadna.org.il
-            </a>
-            .
-          </p>
-        </section>
       </CardContent>
     </Card>
   );

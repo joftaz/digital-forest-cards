@@ -4,6 +4,12 @@
 
 **URL**: https://lovable.dev/projects/f9564955-b52d-4800-8327-58691ff0dea3
 
+## Project Description
+
+**Digital Forest Cards (Maza'at MVP)** is a mobile-first web application designed to allow citizens to view information about municipal trees by searching for their physical tag number (Municipal ID). The project aims to connect residents with urban nature, provide transparency on public tree data, and eventually allow for civic contributions (photos, data updates).
+
+The app mirrors the branding of "Ya'ad" (Digital Urban Forest) and serves as a pilot for public engagement.
+
 ## How can I edit this code?
 
 There are several ways of editing your application.
